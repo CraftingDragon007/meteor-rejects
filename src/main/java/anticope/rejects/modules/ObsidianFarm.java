@@ -36,7 +36,7 @@ public class ObsidianFarm extends Module {
         if (mc.player == null) return;
         if (mc.world == null) return;
         if (mc.interactionManager == null) return;
-        if (mc.world.getDimension().respawnAnchorWorks()) {
+        if (mc.world.getRegistryKey() == net.minecraft.world.World.NETHER) {
             allowBreakAgain = true;
             return;
         }
@@ -116,3 +116,5 @@ public class ObsidianFarm extends Module {
 
 
 }
+
+

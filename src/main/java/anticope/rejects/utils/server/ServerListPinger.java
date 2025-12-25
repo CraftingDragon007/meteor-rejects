@@ -18,6 +18,7 @@ import net.minecraft.server.ServerMetadata;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.minecraft.util.profiler.MultiValueDebugSampleLogImpl;
+import net.minecraft.network.NetworkingBackend;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,7 +65,7 @@ public class ServerListPinger {
         if (address.isEmpty()) {
             return;
         }
-        final ClientConnection clientConnection = ClientConnection.connect(address.get(), false, (MultiValueDebugSampleLogImpl) null);
+        final ClientConnection clientConnection = ClientConnection.connect(address.get(), null, (MultiValueDebugSampleLogImpl) null);
 
         failedToConnect = false;
         this.clientConnections.add(clientConnection);
@@ -144,7 +145,7 @@ public class ServerListPinger {
 
     private void ping(final MServerInfo serverInfo) {
         final ServerAddress serverAddress = ServerAddress.parse(serverInfo.address);
-        new Bootstrap().group(ClientConnection.CLIENT_IO_GROUP.get()).handler(new ChannelInitializer<>() {
+        new Bootstrap().group((new io.netty.channel.nio.NioEventLoopGroup())).handler(new ChannelInitializer<>() {
             @Override
             protected void initChannel(Channel ch) throws Exception {
                 try {
@@ -190,3 +191,6 @@ public class ServerListPinger {
         }
     }
 }
+
+
+

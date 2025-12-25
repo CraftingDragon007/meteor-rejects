@@ -91,7 +91,7 @@ public class AutoExtinguish extends Module {
 
     @EventHandler
     private void onTick(TickEvent.Pre event) {
-        if (mc.world.getDimension().respawnAnchorWorks()) {
+        if (mc.world.getRegistryKey() == net.minecraft.world.World.NETHER) {
             if (doesWaterBucketWork) {
                 warning("Water Buckets don't work in this dimension!");
                 doesWaterBucketWork = false;
@@ -186,3 +186,5 @@ public class AutoExtinguish extends Module {
     }
 
 }
+
+
